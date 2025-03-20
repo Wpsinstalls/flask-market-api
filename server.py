@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import requests
+import os  # ✅ Include this to fetch environment variables
 
 app = Flask(__name__)
 CORS(app)  # Enable external access
@@ -41,5 +42,7 @@ def get_options():
 def home():
     return jsonify({"message": "Welcome to your real-time market data API!"})
 
+# ✅ Fix for Render Deployment: Use Environment Port
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Get PORT from Render
+    app.run(host='0.0.0.0', port=port, debug=True)
